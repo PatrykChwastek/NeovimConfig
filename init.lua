@@ -25,9 +25,10 @@ vim.cmd("set softtabstop=4")
 vim.cmd("set autoindent")   -- Enable auto-indentation
 vim.cmd("set smartindent")
 
+-- Remap c (change) to c register
+vim.keymap.set("n", "c", '"cc')
+vim.keymap.set("x", "c", '"cc')
+
 require("config.lazy")
 require("config.keymaps")
 require("commands")
-
---vim.cmd([[colorscheme teide-darker]])
-vim.cmd([[colorscheme bamboo]])

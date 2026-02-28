@@ -2,13 +2,6 @@
 vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2a2a2a" })
 
 return {
-    -- Themes
-    {
-        "serhez/teide.nvim",
-        lazy = false,
-        priority = 1000,
-        opts = {},
-    },-- Using lazy.nvim
     {
         'ribru17/bamboo.nvim',
         lazy = false,
@@ -26,10 +19,11 @@ return {
                     ['@comment'] = { fg = '$grey' },
                     ['SnacksIndentScope'] = { fg = '#521300' }, -- intend color
                     ['orange'] = { fg = '#DA702C' },
-                    ['SnacksDashboardHeader'] = { fg = '#DA702C' }
+                    ['SnacksDashboardHeader'] = { fg = "#DA702C" }
                 }
             }
             require('bamboo').load()
+            vim.cmd([[colorscheme bamboo]])
         end,
     },
     -- Bottom bar
@@ -69,13 +63,23 @@ return {
                 options = {
                     theme = bubbles_theme,
                     component_separators = '|',
-                    section_separators = { left = '', right = '' },
+                    section_separators = { left = '', right= ''},
                 },
                 sections = {
                     lualine_a = {
                         { 'mode', separator = { left = '', right= ''}},
                     },
-                    lualine_b = { 'filename', 'branch','diff'},
+                    lualine_b = {
+                        'branch',
+                        {
+                            'buffers',
+                            max_length = 90,
+                            buffers_color = {
+                                active   = {fg = colors.black, bg = colors.orange },
+                                inactive = {fg = colors.grey,  bg = colors.black },
+                            }
+                        }
+                    },
                     lualine_c = { 'fileformat'},
                     lualine_x = {},
                     lualine_y = { 'filetype', 'progress' },
