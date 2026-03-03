@@ -78,11 +78,35 @@ return {
                 }
             })
 
+            local hipatterns = require('mini.hipatterns')
+            hipatterns.setup({
+                highlighters = {
+                    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+                    fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+                    hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
+                    todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
+                    note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
+                    hex_color = hipatterns.gen_highlighter.hex_color(),
+                },
+            })
+
+            require('mini.extra').setup()
+
+            local gen_ai_spec = require('mini.extra').gen_ai_spec
+            require('mini.ai').setup({
+                custom_textobjects = {
+                    B = gen_ai_spec.buffer(),
+                    D = gen_ai_spec.diagnostic(),
+                    I = gen_ai_spec.indent(),
+                    L = gen_ai_spec.line(),
+                    N = gen_ai_spec.number(),
+                },
+            })
             require('mini.diff').setup()
-            require('mini.ai').setup()
             require('mini.surround').setup()
             require('mini.bracketed').setup()
             require('mini.pairs').setup()
+            require('mini.cursorword').setup()
         end
     }
 }

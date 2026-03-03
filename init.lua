@@ -31,4 +31,4 @@ vim.keymap.set("x", "c", '"cc')
 
 require("config.lazy")
 require("config.keymaps")
-require("commands")
+require("commands.commands")
