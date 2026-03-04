@@ -1,4 +1,6 @@
 -- Hide highlights on search by *, /
+vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
+vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>")
 
 local wk = require("which-key")
@@ -69,7 +71,24 @@ vim.keymap.set('n', '<Leader>sr', function() sessions.read() end, { desc = 'Sess
 
 vim.keymap.set('n', '<Leader>nh', function() Snacks.notifier.show_history() end, { desc = 'Notifications history' })
 
-vim.keymap.set("n","<leader>t",function () require('alternate-toggler').toggleAlternate() end,{desc = "Invert boolen value."})
+vim.keymap.set("n","<leader>t",function () require('alternate-toggler').toggleAlternate() end,{desc = "Invert boolean value."})
 
 vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
 vim.keymap.set("n","<leader>gv",function () MiniDiff.toggle_overlay() end,{desc = "Git changes view toggle(MiniDiff)"})
+
+vim.keymap.set("n","<leader>pc",function () require("minty.huefy").open() end,{desc = "Open color picker"})
+vim.keymap.set("n","<leader>ps",function () require("minty.shades").open() end,{desc = "Open color picker, shade"})
+
+vim.keymap.set("n","<RightMouse>",function ()
+    require('menu.utils').delete_old_menus()
+    vim.cmd.exec '"normal! \\<RightMouse>"'
+    -- require("plenary.reload").reload_module "menus"
+    -- require("plenary.reload").reload_module "menu"
+    require("menu").open("default")
+end,{desc = "Menu"})
+-- <F16> is menu in win terminal
+-- { 
+--     "command": { "action": "sendInput", "input": "\u001b[29~" }, 
+--     "keys": "menu" 
+-- }
+vim.keymap.set("n","<F16>",function ()require('menu.utils').delete_old_menus() require("menu").open("default") end,{desc = "Menu"})

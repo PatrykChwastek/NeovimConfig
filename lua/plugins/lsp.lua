@@ -20,13 +20,35 @@ return {
         },
         config = function()
             local mason_lspconfig = require("mason-lspconfig")
+
             mason_lspconfig.setup({
                 ensure_installed = {
+                    --> Python
+                    "basedpyright",
+                    "ruff",
+                    --<
                    -- "ltex-ls",
-                   -- "pyright",
                     -- "typescript-language-server",
                 }
             })
+
+            vim.lsp.config['basedpyright']= {
+                settings = {
+                    basedpyright = {
+                        analysis = {
+                            typeCheckingMode = "off",
+                        }
+                    }
+                }
+            }
+
+            vim.lsp.config['ruff']= {
+                on_attach = function(client, bufnr)
+                    if client.server_capabilities.hoverProvider then
+                        client.server_capabilities.hoverProvider = false
+                    end
+                end
+            }
         end,
     },
     -- .net lsp
@@ -109,12 +131,12 @@ return {
             })
         end
     },
-    -- For now only spell checker
     {
         "nvimtools/none-ls.nvim",
         dependencies = {
             "davidmh/cspell.nvim", -- Helper to make cspell work easier with none-ls
         },
+        event = "VeryLazy",
         config = function()
             local null_ls = require("null-ls")
             local cspell = require("cspell")
@@ -131,7 +153,7 @@ return {
                     config = cspell_config,
                     diagnostics_postprocess = function(diagnostic)
                         -- You can use "WARN", "INFO", or "HINT"
-                        diagnostic.severity = vim.diagnostic.severity["WARN"]
+                        diagnostic.severity = vim.diagnostic.severity["HINT"]
                     end,
                     }),
                     cspell.code_actions.with({ config = cspell_config }),

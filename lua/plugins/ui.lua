@@ -82,7 +82,7 @@ return {
                     },
                     lualine_c = { 'fileformat'},
                     lualine_x = {},
-                    lualine_y = { 'filetype', 'progress' },
+                    lualine_y = { 'filetype', 'venv-selector', 'progress' },
                     lualine_z = {
                         { 'location', separator = { left = '', right= ''}},
                     },
@@ -194,6 +194,13 @@ return {
             "MunifTanjim/nui.nvim",
         }
     },
+    -- minty color picker(volt is requirement)
+    { "nvzone/volt", lazy = true },
+    {
+        "nvzone/minty",
+        cmd = { "Shades", "Huefy" },
+    },
+    { "nvzone/menu" , lazy = true },
     {
         "folke/snacks.nvim",
         priority = 1000,
