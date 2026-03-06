@@ -8,7 +8,7 @@ wk.add({
     { "<leader>c",  group = "Code" },
     { "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, desc = "Format buffer" },
     { "K",          vim.lsp.buf.hover,                                   desc = "Show hover" },
-    { "<leader>cg", function() vim.lsp.buf.definition() end,             desc = "LSP Goto Definition"},
+    { "<leader>cd", function() vim.lsp.buf.definition() end,             desc = "LSP Goto Definition"},
     { "<leader>cr", function() vim.lsp.buf.references() end,             desc = "LSP Goto Reference" },
     -- { "<Leader>ca", vim.lsp.buf.code_action,                             desc = "Code actions", mode = "v" },
     -- { "<leader>ca", vim.lsp.buf.code_action,                             desc = "Code actions" },
@@ -69,7 +69,8 @@ end, { desc = 'Sessions: Write' })
 vim.keymap.set('n', '<Leader>sd', function() sessions.select('delete') end, { desc = 'Sessions: Delete' })
 vim.keymap.set('n', '<Leader>sr', function() sessions.read() end, { desc = 'Sessions: Read' })
 
-vim.keymap.set('n', '<Leader>nh', function() Snacks.notifier.show_history() end, { desc = 'Notifications history' })
+vim.keymap.set('n', '<Leader>nh',":Telescope noice<CR>", { desc = 'Notifications History' })
+vim.keymap.set('n', '<Leader>nl',":Noice last<CR>", { desc = 'Last Notification' })
 
 vim.keymap.set("n","<leader>t",function () require('alternate-toggler').toggleAlternate() end,{desc = "Invert boolean value."})
 

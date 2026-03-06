@@ -81,8 +81,14 @@ return {
                         }
                     },
                     lualine_c = { 'fileformat'},
-                    lualine_x = {},
-                    lualine_y = { 'filetype', 'venv-selector', 'progress' },
+                    lualine_x = {
+                        {
+                            require("noice").api.status.showcmd.get,
+                            cond = require("noice").api.status.showcmd.has,
+                            color = { fg = colors.orange },
+                        }
+                    },
+                    lualine_y = {'filetype', 'venv-selector', 'progress' },
                     lualine_z = {
                         { 'location', separator = { left = '', right= ''}},
                     },
@@ -187,7 +193,12 @@ return {
         "folke/noice.nvim",
         event = "VeryLazy",
         opts = {
-            -- add any options here
+            presets = {
+                command_palette = true, -- position the cmdline and popupmenu together
+            },
+            status = {
+                showcmd = {},
+            },
         },
         dependencies = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -240,9 +251,6 @@ return {
                     duration = { step = 5, total = 50 },
                     easing = "linear",
                 }
-            },
-            notifier = {
-                enabled = true
             },
             input = {
                 enabled = true

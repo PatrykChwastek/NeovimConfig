@@ -8,6 +8,7 @@ vim.opt.shortmess:append("c")
 vim.opt.previewheight = 10
 vim.opt.laststatus = 3
 vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 60
 vim.opt.signcolumn = "yes"
 
 vim.opt.ignorecase = true
@@ -24,6 +25,8 @@ vim.cmd("set shiftwidth=4")
 vim.cmd("set softtabstop=4")
 vim.cmd("set autoindent")   -- Enable auto-indentation
 vim.cmd("set smartindent")
+
+vim.filetype.add({ extension = {dat = "dat"}})
 
 -- Remap c (change) to c register
 vim.keymap.set("n", "c", '"cc')

@@ -2,6 +2,7 @@ return {
     {
         'nvim-mini/mini.nvim',
         version = false,
+        event = "VeryLazy",
         config = function()
             require('mini.sessions').setup({
                 -- Whether to read default session if Neovim opened without file arguments
