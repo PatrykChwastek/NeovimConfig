@@ -46,7 +46,7 @@ return {
                 normal = {
                     a = { fg = colors.black, bg = colors.orange },
                     b = { fg = colors.white, bg = colors.grey },
-                    c = { fg = colors.black, bg = colors.black },
+                    c = { fg = colors.black, bg = 'none' },
                 },
 
                 insert =  { a = { fg = colors.black, bg = colors.blue } },
@@ -62,25 +62,27 @@ return {
             require('lualine').setup {
                 options = {
                     theme = bubbles_theme,
-                    component_separators = '|',
-                    section_separators = { left = '', right= ''},
+                    component_separators = '',
+                    always_show_tabline = true,
+                    section_separators = { left = '', right= ''},
                 },
                 sections = {
                     lualine_a = {
-                        { 'mode', separator = { left = '', right= ''}},
+                        { 'mode', separator = { left = '', right= ''}},
                     },
                     lualine_b = {
                         'branch',
-                        {
-                            'buffers',
-                            max_length = 90,
-                            buffers_color = {
-                                active   = {fg = colors.black, bg = colors.orange },
-                                inactive = {fg = colors.grey,  bg = colors.black },
-                            }
-                        }
+                        'filename'
+                        -- {
+                        --     'buffers',
+                        --     max_length = 90,
+                        --     buffers_color = {
+                        --         active   = {fg = colors.black, bg = colors.orange },
+                        --         inactive = {fg = colors.grey,  bg = colors.black },
+                        --     }
+                        -- }
                     },
-                    lualine_c = { 'fileformat'},
+                    lualine_c = {},
                     lualine_x = {
                         {
                             require("noice").api.status.showcmd.get,
@@ -88,9 +90,9 @@ return {
                             color = { fg = colors.orange },
                         }
                     },
-                    lualine_y = {'filetype', 'venv-selector', 'progress' },
+                    lualine_y = {'filetype', 'encoding', 'venv-selector', 'progress' },
                     lualine_z = {
-                        { 'location', separator = { left = '', right= ''}},
+                        { 'location', separator = { left = '', right= ''}},
                     },
                 },
                 inactive_sections = {
@@ -101,9 +103,25 @@ return {
                     lualine_y = {},
                     lualine_z = { 'location' },
                 },
-                tabline = {},
+                tabline = {
+                    lualine_a = {
+                        {
+                            'tabs',
+                            tab_max_length = 90,
+                            mode = 2,
+                            path = 1,
+                            use_mode_colors = true,
+                            separator = { left = '', right= ''}
+                        },
+                    }
+                },
                 extensions = {},
             }
+            -- Transparent hl for ststus, tabs, win
+            local base_statusline_highlights = {'StatusLine', 'StatusLineNC', 'Tabline', 'TabLineFill', 'TabLineSel', 'Winbar', 'WinbarNC'}
+            for _, hl_group in pairs(base_statusline_highlights) do
+                vim.api.nvim_set_hl(0, hl_group, { bg = 'none' })
+            end
         end
     },
     -- Key binding helper
