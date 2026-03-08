@@ -93,3 +93,10 @@ end,{desc = "Menu"})
 --     "keys": "menu" 
 -- }
 vim.keymap.set("n","<F16>",function ()require('menu.utils').delete_old_menus() require("menu").open("default") end,{desc = "Menu"})
+
+-- Tab navigation with ALT + numbers  
+for i = 1, 9 do
+  vim.keymap.set('n', string.format('<M-%d>', i), function()
+    vim.cmd('tabnext ' .. i)
+  end, { desc = string.format('Switch to tab %d', i) })
+end
