@@ -229,7 +229,22 @@ return {
         "nvzone/minty",
         cmd = { "Shades", "Huefy" },
     },
+    -- TODO config or find alternative
     { "nvzone/menu" , lazy = true },
+    -- Scrollbar
+    {
+        'dstein64/nvim-scrollview',
+        opts = {},
+        config =function ()
+            require('scrollview').setup({
+                excluded_filetypes = {"snacks_dashboard"},
+                -- current_only = true,
+                -- base = 'buffer',
+                signs_on_startup = {'all'},
+                diagnostics_severities = {vim.diagnostic.severity.ERROR}
+            })
+        end
+    },
     {
         "folke/snacks.nvim",
         priority = 1000,
