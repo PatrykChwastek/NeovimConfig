@@ -19,7 +19,7 @@ return {
                     ['@comment'] = { fg = '$grey' },
                     ['SnacksIndentScope'] = { fg = '#521300' }, -- intend color
                     ['orange'] = { fg = '#DA702C' },
-                    ['SnacksDashboardHeader'] = { fg = "#DA702C" }
+                    ['SnacksDashboardHeader'] = { fg = "#DA702C" },
                 }
             }
             require('bamboo').load()
@@ -139,7 +139,7 @@ return {
             require('nvim-treesitter.install').compilers = { "zig", "gcc", "clang" }
             local configs = require('nvim-treesitter.configs')
             configs.setup({
-                ensure_installed = { "c_sharp", "javascript", "typescript", "json", "lua", "tsx", "html", "python" },
+                ensure_installed = { "c_sharp", "javascript", "typescript", "json", "lua", "tsx", "html", "python", "markdown_inline","yaml" },
                 highlight = {
                     enable = true,
                     additional_vim_regex_highlighting = false,
@@ -243,6 +243,25 @@ return {
                 signs_on_startup = {'all'},
                 diagnostics_severities = {vim.diagnostic.severity.ERROR}
             })
+        end
+    },
+    {
+        "OXY2DEV/markview.nvim",
+        lazy = false,
+        config = function ()
+            local presets = require("markview.presets").headings;
+
+            require("markview").setup({
+                markdown = {
+                    headings = presets.slanted
+                },
+                code_blocks = {
+                    label_direction = "left",
+                    pad_amount = 1,
+                }
+            });
+            vim.api.nvim_set_hl(0, "MarkviewCode", {bg = "#222222" })
+            vim.api.nvim_set_hl(0, "MarkviewInlineCode", {bg = "#222222", fg = '#DA702C'})
         end
     },
     {
