@@ -78,7 +78,9 @@ return {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-path",
             'hrsh7th/cmp-cmdline',
+            "abeldekat/cmp-mini-snippets",
         },
+        event = "VeryLazy",
         config = function()
             local cmp = require('cmp')
             cmp.setup({
@@ -87,25 +89,58 @@ return {
                     ['<C-j>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
                     ['<C-k>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
                     ['<C-Right>'] = cmp.mapping.complete(),
+
                     ['<Tab>'] = cmp.mapping(function(fallback)
                         if cmp.visible() then
+                            -- 1. If autocomplete menu is visible, go to next item
                             cmp.select_next_item()
+                        elseif MiniSnippets ~= nil and MiniSnippets.session.get(false) ~= nil then
+                            -- 2. If a mini.snippets session is active, jump to the next field
+                            MiniSnippets.session.jump('next')
                         else
+                            -- 3. Otherwise, use standard Tab behavior (insert tab)
                             fallback()
                         end
-                    end),
-                    ['<S-Tab>'] = cmp.mapping(function()
+                    end, { 'i', 's' }), -- 'i' for insert mode, 's' for select mode
+
+                    ['<S-Tab>'] = cmp.mapping(function(fallback)
                         if cmp.visible() then
+                            -- 1. If autocomplete menu is visible, go to previous item
                             cmp.select_prev_item()
+                        elseif MiniSnippets ~= nil and MiniSnippets.session.get(false) ~= nil then
+                            -- 2. If a mini.snippets session is active, jump to the previous field
+                            MiniSnippets.session.jump('prev')
+                        else
+                            -- 3. Otherwise, use standard Shift-Tab behavior
+                            fallback()
                         end
-                    end),
+                    end, { 'i', 's' }),
+                    ['<Esc>'] = cmp.mapping(function(fallback)
+                            if cmp.visible() then
+                                cmp.abort()
+                            else
+                                fallback()
+                            end
+                        end, { 'i', 's' }),
                     ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                },
+                snippet = {
+                    expand = function(args)
+                        local insert = MiniSnippets.config.expand.insert or MiniSnippets.default_insert
+                        insert({ body = args.body }) -- Insert at cursor
+
+                        -- These two lines are recommended by cmp-mini-snippets to 
+                        -- correctly refresh the autocomplete menu after snippet insertion
+                        cmp.resubscribe({ "TextChangedI", "TextChangedP" })
+                        require("cmp.config").set_onetime({ sources = {} })
+                    end,
                 },
                 sources = {
                     { name = "nvim_lsp" },
                     { name = "buffer" },
                     { name = "path" },
                     { name = "conjure" },
+                    { name = "mini_snippets" },
                 }
             })
             -- `/` cmdline setup.
@@ -160,5 +195,6 @@ return {
                 },
             })
         end
-    }
+    },
+    { "rafamadriz/friendly-snippets" }
 }

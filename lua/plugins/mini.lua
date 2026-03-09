@@ -79,6 +79,26 @@ return {
                 }
             })
 
+            local mini_snippets = require('mini.snippets')
+            local gen_loader = mini_snippets.gen_loader
+            local base_loader = gen_loader.from_lang()
+            -- 2. Create a wrapper that fixes language name mismatches
+            local custom_lang_loader = function(context)
+                local lang = context.lang
+                if lang == 'c_sharp' then 
+                    lang = 'csharp' 
+                end
+                return base_loader({ buf_id = context.buf_id, lang = lang })
+            end
+
+            mini_snippets.setup({
+                snippets = {
+                    custom_lang_loader,
+                    gen_loader.from_lang({ lang = 'global' }),
+                },
+            })
+
+
             local hipatterns = require('mini.hipatterns')
             hipatterns.setup({
                 highlighters = {

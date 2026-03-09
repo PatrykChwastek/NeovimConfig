@@ -1,6 +1,9 @@
 require('commands.md_to_docx')
 require('commands.mini_diff_scrollview').setup()
 
+
+vim.api.nvim_create_user_command('Start', function() Snacks.dashboard.open() end, { desc = "Open dashboard." })
+
 vim.keymap.set("n", "<leader>mp", function()
   -- Step 1: Get full HTML clipboard
   local html = vim.fn.system([[
