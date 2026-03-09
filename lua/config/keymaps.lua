@@ -100,3 +100,5 @@ for i = 1, 9 do
     vim.cmd('tabnext ' .. i)
   end, { desc = string.format('Switch to tab %d', i) })
 end
+
+vim.keymap.set('t', "<esc><esc>", "<C-\\><c-n>", {desc = "Switch to normal mode in terminal"})
