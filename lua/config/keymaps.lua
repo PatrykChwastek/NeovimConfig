@@ -101,4 +101,6 @@ for i = 1, 9 do
   end, { desc = string.format('Switch to tab %d', i) })
 end
 
+vim.keymap.set({"n", "t"}, "<M-t>", "<cmd>Floaterminal<CR>", { desc = "Toggle Float Terminal" })
+vim.keymap.set({"n", "t"}, "<M-s>", "<cmd>Scratch<CR>", { desc = "Toggle Float Scratch" })
 vim.keymap.set('t', "<esc><esc>", "<C-\\><c-n>", {desc = "Switch to normal mode in terminal"})
