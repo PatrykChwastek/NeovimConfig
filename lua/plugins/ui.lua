@@ -211,18 +211,21 @@ return {
     {
         "folke/noice.nvim",
         event = "VeryLazy",
-        opts = {
-            presets = {
-                command_palette = true, -- position the cmdline and popupmenu together
-            },
-            status = {
-                showcmd = {},
-            },
-        },
         dependencies = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             "MunifTanjim/nui.nvim",
-        }
+        },
+        opts = {},
+        config =function ()
+            require("noice").setup({
+                presets = {
+                    long_message_to_split = true, -- long messages will be sent to a split
+                },
+                status = {
+                    showcmd = {},
+                },
+            })
+        end,
     },
     -- minty color picker(volt is requirement)
     { "nvzone/volt", lazy = true },
@@ -306,6 +309,9 @@ return {
                 }
             },
             input = {
+                enabled = true
+            },
+            notify = {
                 enabled = true
             },
             indent = {
