@@ -101,6 +101,14 @@ for i = 1, 9 do
   end, { desc = string.format('Switch to tab %d', i) })
 end
 
+-- custom float window integrations
 vim.keymap.set({"n", "t"}, "<M-t>", "<cmd>Floaterminal<CR>", { desc = "Toggle Float Terminal" })
 vim.keymap.set({"n", "t"}, "<M-s>", "<cmd>Scratch<CR>", { desc = "Toggle Float Scratch" })
 vim.keymap.set('t', "<esc><esc>", "<C-\\><c-n>", {desc = "Switch to normal mode in terminal"})
+
+-- Flash
+vim.keymap.set({ "n", "x", "o" }, "<BS>", function() require("flash").jump() end, { desc = "Flash" })
+vim.keymap.set({ "n", "x", "o" }, "<M-BS>", function() require("flash").treesitter() end, { desc = "Flash Treesitter" })
+vim.keymap.set('o', 'r', function() require("flash").remote() end, {desc = "Remote Flash"})
+vim.keymap.set({'o', 'x'} ,'R', function() require("flash").treesitter_search() end, {desc = "Treesitter Search"})
+vim.keymap.set('c', '<c-s>',function() require("flash").toggle() end, {desc = "Toggle Flash Search"})
