@@ -1,7 +1,8 @@
 -- Hide highlights on search by *, /
-vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
-vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>")
+
+vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
+vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
 
 local wk = require("which-key")
 wk.add({
@@ -32,7 +33,6 @@ end, { desc = "Fuzzy search in buffer" })
 vim.keymap.set({ "n", "x" }, "<leader>ca", function()
 	require("tiny-code-action").code_action()
 end, { noremap = true, silent = true })
-
 
 -- jump to warning
 vim.keymap.set("n", "<leader>dw", function()
@@ -112,3 +112,21 @@ vim.keymap.set({ "n", "x", "o" }, "<M-BS>", function() require("flash").treesitt
 vim.keymap.set('o', 'r', function() require("flash").remote() end, {desc = "Remote Flash"})
 vim.keymap.set({'o', 'x'} ,'R', function() require("flash").treesitter_search() end, {desc = "Treesitter Search"})
 vim.keymap.set('c', '<c-s>',function() require("flash").toggle() end, {desc = "Toggle Flash Search"})
+
+-- Run lua 
+vim.keymap.set ("n", "<leader><leader>x", "<cmd>source %<CR>",{desc ="Source(reload) current buffer"} )
+vim.keymap.set ("n", "<leader>x", " :. lua<CR>", {desc ="Run lua code in line"})
+vim.keymap.set("v", "<leader>x", ":lua<CR>", { desc = "Run Lua selected code" })
+
+vim.keymap.set("n", "<C-s>", function()
+  local name = vim.api.nvim_buf_get_name(0)
+  if name == "" then
+    vim.ui.input({ prompt = "Save as: " }, function(input)
+      if input and input ~= "" then
+        vim.cmd("write " .. input)
+      end
+    end)
+  else
+    vim.cmd("write")
+  end
+end, { desc = "Save buffer (ask name if unnamed)" })

@@ -26,6 +26,15 @@ vim.cmd("set softtabstop=4")
 vim.cmd("set autoindent")   -- Enable auto-indentation
 vim.cmd("set smartindent")
 
+-- set terminal base on os
+if vim.fn.has("win32") == 1 then
+  if vim.fn.executable("pwsh") == 1 then
+    vim.opt.shell = "pwsh"
+  else
+    vim.opt.shell = "powershell"
+  end
+end
+
 vim.filetype.add({ extension = {dat = "dat"}})
 
 -- Remap c (change) to c register
