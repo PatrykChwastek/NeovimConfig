@@ -114,8 +114,7 @@ vim.keymap.set({'o', 'x'} ,'R', function() require("flash").treesitter_search() 
 vim.keymap.set('c', '<c-s>',function() require("flash").toggle() end, {desc = "Toggle Flash Search"})
 
 -- Run lua 
-vim.keymap.set ("n", "<leader><leader>x", "<cmd>source %<CR>",{desc ="Source(reload) current buffer"} )
-vim.keymap.set ("n", "<leader>x", " :. lua<CR>", {desc ="Run lua code in line"})
+vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>",{desc ="Source(reload) current buffer"} )
 vim.keymap.set("v", "<leader>x", ":lua<CR>", { desc = "Run Lua selected code" })
 
 vim.keymap.set("n", "<C-s>", function()
