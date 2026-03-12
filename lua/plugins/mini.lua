@@ -97,7 +97,15 @@ return {
                     gen_loader.from_lang({ lang = 'global' }),
                 },
             })
-
+            -- Automatically stop snippet session when leaving Insert mode
+            vim.api.nvim_create_autocmd("InsertLeave", {
+                group = vim.api.nvim_create_augroup("StopMiniSnippets", { clear = true }),
+                callback = function()
+                    if MiniSnippets ~= nil and MiniSnippets.session.get(false) ~= nil then
+                        MiniSnippets.session.stop()
+                    end
+                end,
+            })
 
             local hipatterns = require('mini.hipatterns')
             hipatterns.setup({

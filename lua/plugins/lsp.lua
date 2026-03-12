@@ -27,6 +27,7 @@ return {
                     "basedpyright",
                     "ruff",
                     --<
+                    -- "cspell",
                    -- "ltex-ls",
                     -- "typescript-language-server",
                 }
@@ -89,40 +90,53 @@ return {
                     ['<C-j>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
                     ['<C-k>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
                     ['<C-Right>'] = cmp.mapping.complete(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
-                    ['<Tab>'] = cmp.mapping(function(fallback)
+                    -- Navigate completion menu with Arrow Keys
+                    ['<Down>'] = cmp.mapping(function(fallback)
                         if cmp.visible() then
-                            -- 1. If autocomplete menu is visible, go to next item
                             cmp.select_next_item()
-                        elseif MiniSnippets ~= nil and MiniSnippets.session.get(false) ~= nil then
-                            -- 2. If a mini.snippets session is active, jump to the next field
-                            MiniSnippets.session.jump('next')
                         else
-                            -- 3. Otherwise, use standard Tab behavior (insert tab)
                             fallback()
                         end
-                    end, { 'i', 's' }), -- 'i' for insert mode, 's' for select mode
+                    end, { 'i', 'c' }),
 
-                    ['<S-Tab>'] = cmp.mapping(function(fallback)
+                    ['<Up>'] = cmp.mapping(function(fallback)
                         if cmp.visible() then
-                            -- 1. If autocomplete menu is visible, go to previous item
                             cmp.select_prev_item()
-                        elseif MiniSnippets ~= nil and MiniSnippets.session.get(false) ~= nil then
-                            -- 2. If a mini.snippets session is active, jump to the previous field
-                            MiniSnippets.session.jump('prev')
                         else
-                            -- 3. Otherwise, use standard Shift-Tab behavior
+                            fallback()
+                        end
+                    end, { 'i', 'c' }),
+
+                    --  Confirm with Tab, or jump to next snippet field
+                    ['<Tab>'] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.confirm({ select = true }) 
+                        elseif MiniSnippets ~= nil and MiniSnippets.session.get(false) ~= nil then
+                            MiniSnippets.session.jump('next')
+                        else
                             fallback()
                         end
                     end, { 'i', 's' }),
+
+                    --  Shift-Tab exclusively jumps backward in snippets['<S-Tab>'] = cmp.mapping(function(fallback)
+                    ['<S-Tab>'] = cmp.mapping(function(fallback)
+                        if MiniSnippets ~= nil and MiniSnippets.session.get(false) ~= nil then
+                            MiniSnippets.session.jump('prev')
+                        else
+                            fallback()
+                        end
+                    end, { 'i', 's' }),
+
+                    --  Escape closes the menu without leaving insert mode
                     ['<Esc>'] = cmp.mapping(function(fallback)
-                            if cmp.visible() then
-                                cmp.abort()
-                            else
-                                fallback()
-                            end
-                        end, { 'i', 's' }),
-                    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                        if cmp.visible() then
+                            cmp.abort()
+                        else
+                            fallback()
+                        end
+                    end, { 'i', 's' }),
                 },
                 snippet = {
                     expand = function(args)
