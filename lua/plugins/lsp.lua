@@ -84,13 +84,24 @@ return {
         event = "VeryLazy",
         config = function()
             local cmp = require('cmp')
+            -- to make c-space work in Win termina add to actions:
+            -- {
+            --     "command": {
+            --         "action": "sendInput",
+            --         "input": "\u001b[32;5u"
+            --     },
+            --     "keys": "ctrl+space"
+            -- }
+            -- vim.keymap.set('i', '<C-Space>', function() cmp.mapping.complete() end, { noremap = true })
+
             cmp.setup({
                 preselect = cmp.PreselectMode.None,
                 mapping = {
                     ['<C-j>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
                     ['<C-k>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-                    ['<C-Right>'] = cmp.mapping.complete(),
+                    ['<C-Space>'] = cmp.mapping.complete(),
                     ['<CR>'] = cmp.mapping.confirm({ select = false }),
+
 
                     -- Navigate completion menu with Arrow Keys
                     ['<Down>'] = cmp.mapping(function(fallback)

@@ -35,3 +35,21 @@ powershell -command "Add-Type -AssemblyName System.Windows.Forms; [Windows.Forms
   -- Step 5: Insert at cursor
   vim.api.nvim_put({markdown}, "c", true, true)
 end, { desc = "Paste Word/Teams link as Markdown" })
+
+vim.api.nvim_create_user_command("SpellCheck", function()
+    local bufnr = vim.api.nvim_get_current_buf()
+
+    -- Set filetype to text to make null-ls happy
+    vim.bo[bufnr].filetype = "text"
+
+    -- Give the buffer a fake name so null-ls can attach
+    if vim.api.nvim_buf_get_name(bufnr) == "" then
+        vim.api.nvim_buf_set_name(bufnr, "scratch_" .. bufnr .. ".txt")
+    end
+
+    -- Restart null-ls diagnostics on this buffer
+    vim.defer_fn(function()
+        vim.diagnostic.reset(nil, bufnr)
+        require("null-ls.client").retry_add(bufnr)
+    end, 100)
+end, {})
