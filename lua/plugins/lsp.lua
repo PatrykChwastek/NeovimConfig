@@ -79,6 +79,7 @@ return {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-path",
             'hrsh7th/cmp-cmdline',
+            "hrsh7th/cmp-nvim-lsp-signature-help",
             "abeldekat/cmp-mini-snippets",
         },
         event = "VeryLazy",
@@ -166,6 +167,7 @@ return {
                     { name = "path" },
                     { name = "conjure" },
                     { name = "mini_snippets" },
+                    { name = 'nvim_lsp_signature_help' }
                 }
             })
             -- `/` cmdline setup.

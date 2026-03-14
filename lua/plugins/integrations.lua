@@ -32,5 +32,10 @@ return {
               },
             })
         end
+    },
+    -- testing
+    {
+        "esmuellert/codediff.nvim",
+        cmd = "CodeDiff",
     }
 }
