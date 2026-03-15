@@ -25,6 +25,8 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope keymaps' })
 vim.keymap.set('n', '<leader>fc', builtin.commands, { desc = 'Telescope commands' })
 vim.keymap.set("n", "<leader>f/", builtin.current_buffer_fuzzy_find, { desc = "Fuzzy search in buffer" })
+vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Telescope find registers" })
+vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Telescope find markers" })
 
 vim.keymap.set("n", "<leader>//", function()
   require("telescope.builtin").current_buffer_fuzzy_find()

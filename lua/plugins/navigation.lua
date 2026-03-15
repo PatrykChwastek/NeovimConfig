@@ -61,23 +61,23 @@ return {
         end
     },
     {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = {
-      jump = {
-        -- automatically jump when there is only one match
-        autojump = true,
-      },
-      label = {
-        -- allow uppercase labels
-        uppercase = false,
-      },
-      modes = {
-        char = {
-          jump_labels = true,
-          multi_line = true,
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        opts = {
+            jump = {
+                -- automatically jump when there is only one match
+                autojump = true,
+            },
+            label = {
+                -- allow uppercase labels
+                uppercase = false,
+            },
+            modes = {
+                char = {
+                    jump_labels = true,
+                    multi_line = true,
+                },
+            },
         },
-      },
     },
-  }
 }
