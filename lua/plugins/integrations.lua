@@ -37,5 +37,16 @@ return {
     {
         "esmuellert/codediff.nvim",
         cmd = "CodeDiff",
+    },
+    {
+      "obsidian-nvim/obsidian.nvim",
+      version = "*",
+      event = 'VeryLazy',
+      ---@module 'obsidian'
+      ---@type obsidian.config
+      opts = {
+        legacy_commands = false,
+        workspaces = require('local_vars').obsidian,
+      },
     }
 }
