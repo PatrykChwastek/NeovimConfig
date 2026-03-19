@@ -41,12 +41,28 @@ return {
     {
       "obsidian-nvim/obsidian.nvim",
       version = "*",
-      event = 'VeryLazy',
+      ft = "markdown",
+      cmd = "Obsidian",
       ---@module 'obsidian'
       ---@type obsidian.config
       opts = {
         legacy_commands = false,
-        workspaces = require('local_vars').obsidian,
+        templates = {
+          folder = "templates",
+          substitutions = {
+            week_monday = function()
+              local t = os.date("*t")
+              local ts = os.time() - ((t.wday - 2) % 7) * 86400
+              return os.date("%Y-%m-%d", ts)
+            end,
+            week_friday = function()
+              local t = os.date("*t")
+              local ts = os.time() - ((t.wday - 2) % 7) * 86400 + 4 * 86400
+              return os.date("%Y-%m-%d", ts)
+            end,
+          },
+        },
+       workspaces = require('local_vars').obsidian,
       },
     }
 }

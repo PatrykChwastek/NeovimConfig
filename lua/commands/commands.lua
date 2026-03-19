@@ -36,6 +36,31 @@ powershell -command "Add-Type -AssemblyName System.Windows.Forms; [Windows.Forms
   vim.api.nvim_put({markdown}, "c", true, true)
 end, { desc = "Paste Word/Teams link as Markdown" })
 
+vim.api.nvim_create_user_command("Weekly", function()
+    local vault = require('local_vars').obsidian[1].path
+
+    -- Calculate Friday of the current week (Monday + 4 days)
+    local t = os.date("*t")
+    local days_since_monday = (t.wday - 2) % 7
+    local friday_ts = os.time() - days_since_monday * 86400 + 4 * 86400
+    local friday = os.date("%Y-%m-%d", friday_ts)
+
+    local weekly_dir = vault .. "\\weekly"
+    local filepath = weekly_dir .. "\\" .. friday .. ".md"
+
+    vim.fn.mkdir(weekly_dir, "p")
+
+    local is_new = vim.fn.filereadable(filepath) == 0
+
+    vim.cmd("edit " .. vim.fn.fnameescape(filepath))
+
+    if is_new then
+        vim.schedule(function()
+            vim.cmd("Obsidian template weekly")
+        end)
+    end
+end, { desc = "Open or create weekly note in Obsidian vault" })
+
 vim.api.nvim_create_user_command("SpellCheck", function()
     local bufnr = vim.api.nvim_get_current_buf()
 
