@@ -119,6 +119,8 @@ vim.keymap.set('c', '<c-s>',function() require("flash").toggle() end, {desc = "T
 vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>",{desc ="Source(reload) current buffer"} )
 vim.keymap.set("v", "<leader>x", ":lua<CR>", { desc = "Run Lua selected code" })
 
+vim.keymap.set("n", "<C-a>", "<cmd>normal! ggVG<CR>", { desc = "Select all in buffer" })
+
 vim.keymap.set("n", "<C-s>", function()
   local name = vim.api.nvim_buf_get_name(0)
   if name == "" then
