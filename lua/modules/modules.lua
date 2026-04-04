@@ -1,0 +1,1 @@
+require('modules.mini_diff_scrollview').setup()

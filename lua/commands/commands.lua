@@ -1,7 +1,5 @@
 require('commands.md_to_docx')
 require('commands.float_window')
-require('commands.mini_diff_scrollview').setup()
-
 
 vim.api.nvim_create_user_command('Start', function() Snacks.dashboard.open() end, { desc = "Open dashboard." })
 

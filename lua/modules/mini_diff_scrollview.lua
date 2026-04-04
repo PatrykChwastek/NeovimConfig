@@ -1,7 +1,7 @@
 -- Requirements:
 --  - mini.diff (https://github.com/echasnovski/mini.diff)
 -- Usage:
---   require('commands.mini_diff_scrollview').setup([{config}])
+--   require('modules.mini_diff_scrollview').setup([{config}])
 --     {config} is an optional table with the following attributes:
 --       - add_highlight (string): Defaults to a value from mini.diff config
 --         when available, otherwise 'DiffAdd'.
