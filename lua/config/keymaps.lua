@@ -74,7 +74,7 @@ vim.keymap.set('n', '<Leader>sr', function() sessions.read() end, { desc = 'Sess
 vim.keymap.set('n', '<Leader>nh',":Telescope noice<CR>", { desc = 'Notifications History' })
 vim.keymap.set('n', '<Leader>nl',":Noice last<CR>", { desc = 'Last Notification' })
 
-vim.keymap.set("n","<leader>t",function () require('alternate-toggler').toggleAlternate() end,{desc = "Invert boolean value."})
+vim.keymap.set("n", "<leader>t", function() require("modules.toggle").toggle() end, { desc = "Invert boolean value." })
 
 vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
 vim.keymap.set("n","<leader>gv",function () MiniDiff.toggle_overlay() end,{desc = "Git changes view toggle(MiniDiff)"})
