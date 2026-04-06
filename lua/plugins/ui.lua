@@ -194,19 +194,6 @@ return {
             },
         },
     },
-    -- Telescope code action
-    {
-        "rachartier/tiny-code-action.nvim",
-        dependencies = {
-            {"nvim-lua/plenary.nvim"},
-            {"nvim-telescope/telescope.nvim"}
-        },
-        event = "LspAttach",
-        opts = {},
-        config = function()
-            require("tiny-code-action").setup()
-        end
-    },
     -- Centered command vim line
     {
         "folke/noice.nvim",

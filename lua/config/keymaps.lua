@@ -33,8 +33,8 @@ vim.keymap.set("n", "<leader>//", function()
 end, { desc = "Fuzzy search in buffer" })
 
 vim.keymap.set({ "n", "x" }, "<leader>ca", function()
-	require("tiny-code-action").code_action()
-end, { noremap = true, silent = true })
+    require("telescope.code_action").code_action()
+end, { noremap = true, silent = true, desc = "Code actions" })
 
 -- jump to warning
 vim.keymap.set("n", "<leader>dw", function()
