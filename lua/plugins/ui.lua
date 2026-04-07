@@ -17,7 +17,7 @@ return {
                 },
                 highlights = {
                     ['@comment'] = { fg = '$grey' },
-                    ['SnacksIndentScope'] = { fg = '#521300' }, -- intend color
+                    ['MiniIndentscopeSymbol'] = { fg = '#521300' }, -- intend color
                     ['orange'] = { fg = '#DA702C' },
                     ['SnacksDashboardHeader'] = { fg = "#DA702C" },
                 }
@@ -301,11 +301,6 @@ return {
             notify = {
                 enabled = true
             },
-            indent = {
-                enabled = true,
-                only_current = true,
-                hl = "SnacksIndentScope",
-            }
         }
     }
 }
