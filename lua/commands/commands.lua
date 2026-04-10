@@ -1,7 +1,8 @@
 require('commands.md_to_docx')
 require('commands.float_window')
+require('commands.smart_scroll')
 
-vim.api.nvim_create_user_command('Start', function() Snacks.dashboard.open() end, { desc = "Open dashboard." })
+vim.api.nvim_create_user_command('Start', function() require('modules.dashboard').open() end, { desc = "Open dashboard." })
 
 vim.keymap.set("n", "<leader>mp", function()
   -- Step 1: Get full HTML clipboard
