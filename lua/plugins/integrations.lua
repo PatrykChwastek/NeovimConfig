@@ -33,11 +33,6 @@ return {
             })
         end
     },
-    -- testing
-    {
-        "esmuellert/codediff.nvim",
-        cmd = "CodeDiff",
-    },
     {
       "obsidian-nvim/obsidian.nvim",
       version = "*",

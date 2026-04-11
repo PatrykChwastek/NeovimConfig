@@ -57,7 +57,6 @@ return {
             }
 
         require "telescope.multigrep".setup()
-        require "telescope.sessions".setup()
         end
     },
     {
