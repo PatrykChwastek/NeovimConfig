@@ -2,10 +2,12 @@ local M   = {}
 local sec = require("modules.dashboard.sections")
 
 -- ── config ───────────────────────────────────────────────────────────────────
-local LPAD       = 1    -- left margin in wide mode
-local WIDE_MIN   = 120  -- columns below this → stacked layout
-local WIDE_SPLIT = 0.52 -- fraction of width for left column
-local KEY_MARGIN = 4    -- cells from right edge where keys appear
+local LPAD          = 1    -- left margin in wide mode
+local WIDE_MIN      = 120  -- columns below this → stacked layout
+local WIDE_SPLIT    = 0.52 -- fraction of width for left column
+local KEY_MARGIN    = 4    -- cells from right edge where keys appear
+local MAX_WIDE_W    = 130  -- max content width in wide (two-column) layout
+local MAX_STACKED_W = 80  -- max content width in stacked (narrow) layout
 -- ─────────────────────────────────────────────────────────────────────────────
 
 local function pad(str, width)
@@ -80,7 +82,7 @@ end
 
 local function add_files(lines, hls, actions, key_col)
     local ln = #lines
-    lines[#lines + 1] = "Recent Files"
+    lines[#lines + 1] = " Recent Files"
     hls[#hls + 1] = { ln, 0, -1, "DashHeader" }
 
     local files = sec.recent_files(5)
@@ -246,24 +248,47 @@ local function merge_columns(ll, lh, rl, rh, left_w)
     return lines, hls
 end
 
+-- Shift highlight byte positions by a horizontal margin (for centering).
+local function shift_hls(hls, margin)
+    if margin == 0 then return hls end
+    local out = {}
+    for _, h in ipairs(hls) do
+        out[#out + 1] = { h[1], h[2] + margin, h[3] == -1 and -1 or h[3] + margin, h[4] }
+    end
+    return out
+end
+
+-- Prepend `margin` spaces to every line.
+local function indent_lines(lines, margin)
+    if margin == 0 then return lines end
+    local prefix = string.rep(" ", margin)
+    local out = {}
+    for _, l in ipairs(lines) do out[#out + 1] = prefix .. l end
+    return out
+end
+
 -- ── wide: logo on top, two columns below ─────────────────────────────────────
 local function build_wide(cols)
-    local left_w  = math.floor(cols * WIDE_SPLIT)
-    local right_w = cols - left_w
+    local content_w = math.min(cols, MAX_WIDE_W)
+    local margin    = math.floor((cols - content_w) / 2)
 
-    local tl, th, ta = build_column(WIDE_TOP,   cols)
+    local left_w  = math.floor(content_w * WIDE_SPLIT)
+    local right_w = content_w - left_w
+
+    local tl, th, ta = build_column(WIDE_TOP,   content_w)
     local ll, lh, la = build_column(WIDE_LEFT,  left_w)
     local rl, rh, ra = build_column(WIDE_RIGHT, right_w)
 
     local bot_lines, bot_hls = merge_columns(ll, lh, rl, rh, left_w)
 
-    local lines, hls = {}, {}
-    vim.list_extend(lines, tl)
-    vim.list_extend(lines, bot_lines)
+    local lines = {}
+    vim.list_extend(lines, indent_lines(tl, margin))
+    vim.list_extend(lines, indent_lines(bot_lines, margin))
 
-    for _, h in ipairs(th) do hls[#hls + 1] = h end
+    local hls = {}
+    for _, h in ipairs(shift_hls(th, margin)) do hls[#hls + 1] = h end
     local off = #tl
-    for _, h in ipairs(bot_hls) do
+    for _, h in ipairs(shift_hls(bot_hls, margin)) do
         hls[#hls + 1] = { h[1] + off, h[2], h[3], h[4] }
     end
 
@@ -272,7 +297,11 @@ end
 
 -- ── narrow: stacked ──────────────────────────────────────────────────────────
 local function build_stacked(cols)
-    return build_column(STACK_ORDER, cols)
+    local content_w = math.min(cols, MAX_STACKED_W)
+    local margin    = math.floor((cols - content_w) / 2)
+
+    local sl, sh, sa = build_column(STACK_ORDER, content_w)
+    return indent_lines(sl, margin), shift_hls(sh, margin), sa
 end
 
 -- ── render ───────────────────────────────────────────────────────────────────

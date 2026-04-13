@@ -1,6 +1,6 @@
 local M = {}
 
-local state = {}  -- { buf, win } kept so joke callback can re-render
+local state = {}  -- { buf, win }
 
 function M.rerender()
     if state.buf and vim.api.nvim_buf_is_valid(state.buf)
@@ -57,6 +57,8 @@ function M.open()
             if not vim.api.nvim_win_is_valid(win) then return end
             vim.schedule(function()
                 if not vim.api.nvim_win_is_valid(win) then return end
+                -- If the dashboard buffer is still in its window, keep dashboard options
+                if vim.api.nvim_win_get_buf(win) == buf then return end
                 local w = vim.wo[win]
                 w.number         = saved.number
                 w.relativenumber = saved.relativenumber
@@ -69,11 +71,21 @@ function M.open()
         end,
     })
 
+    vim.api.nvim_create_autocmd("BufEnter", {
+        buffer   = buf,
+        callback = function()
+            if vim.api.nvim_win_get_config(vim.api.nvim_get_current_win()).relative ~= "" then return end
+            if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_win_is_valid(win) then
+                require("modules.dashboard.layout").render(buf, win)
+            end
+        end,
+    })
+
     vim.api.nvim_create_autocmd("VimResized", {
         buffer   = buf,
         callback = function()
-            if vim.api.nvim_buf_is_valid(buf) then
-                require("modules.dashboard.layout").render(buf, vim.api.nvim_get_current_win())
+            if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_win_is_valid(win) then
+                require("modules.dashboard.layout").render(buf, win)
             end
         end,
     })
