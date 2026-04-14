@@ -80,7 +80,40 @@ function M.create()
     end)
 end
 
+-- Detect if the file/dir is known project on nvim startup, cds to the project root when a match is found.
+function M.detect_root()
+    local start_path
+    if vim.fn.argc() > 0 then
+        local arg = vim.fn.fnamemodify(vim.fn.argv(0), ":p")
+        start_path = vim.fn.isdirectory(arg) == 1 and arg or vim.fn.fnamemodify(arg, ":h")
+    else
+        start_path = vim.fn.getcwd()
+    end
+    start_path = start_path:gsub("[/\\]$", "")
+
+    local projects = M.load()
+    local best     = nil  -- longest project path that is a prefix of start_path
+
+    for _, p in ipairs(projects) do
+        local norm = p.path:gsub("[/\\]$", "")
+        if start_path == norm or start_path:find("^" .. vim.pesc(norm) .. "[/\\]") then
+            if not best or #norm > #best.path then
+                best = { name = p.name, path = norm }
+            end
+        end
+    end
+
+    if best then
+        vim.cmd("cd " .. vim.fn.fnameescape(best.path))
+    end
+end
+
 function M.setup()
+    vim.api.nvim_create_autocmd("VimEnter", {
+        once     = true,
+        callback = M.detect_root,
+    })
+
     vim.api.nvim_create_user_command("ProjectCreate", M.create,  { desc = "Add current dir as project" })
     vim.api.nvim_create_user_command("ProjectPick",   function()
         require("modules.projects.telescope").pick()
