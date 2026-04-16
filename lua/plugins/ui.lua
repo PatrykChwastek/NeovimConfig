@@ -1,6 +1,3 @@
--- visual mode selection color
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2a2a2a" })
-
 return {
     {
         'ribru17/bamboo.nvim',

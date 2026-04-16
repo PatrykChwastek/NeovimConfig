@@ -1,6 +1,8 @@
 -- Glow highlights for yank (exact range), undo, and redo.
+-- Yank: charwise = exact text, linewise = full lines, blockwise = block.
+-- Undo/redo: line-level only ('[ '] marks don't expose change granularity).
 
---- [config] ---
+-- ── config ──────────────────────────────────────────────────────────────────
 local duration = 300  -- ms
 
 local colors = {
@@ -9,13 +11,44 @@ local colors = {
     redo = "#7A5020",
 }
 
-local ns       = vim.api.nvim_create_namespace("glow_hl")
-local timer    = nil
-local last_buf = nil
+-- Dark-tinted cursorline backgrounds — same hue family as lualine mode colors.
+local mode_bg = {
+    normal  = "#2e2010",  -- dark orange  · lualine normal  #DA702C
+    insert  = "#10202e",  -- dark blue    · lualine insert  #4385BE
+    visual  = "#10201e",  -- dark cyan    · lualine visual  #3AA99F
+    replace = "#2e1010",  -- dark red     · lualine replace #D14D41
+}
+-- ────────────────────────────────────────────────────────────────────────────
 
 vim.api.nvim_set_hl(0, "YankHL", { bg = colors.yank, fg = "NONE" })
 vim.api.nvim_set_hl(0, "UndoHL", { bg = colors.undo, fg = "NONE" })
 vim.api.nvim_set_hl(0, "RedoHL", { bg = colors.redo, fg = "NONE" })
+
+-- ── mode-tinted cursorline ───────────────────────────────────────────────────
+local function cursorline_bg(m)
+    local c = m:sub(1, 1)
+    if     c == "i" or c == "t"               then return mode_bg.insert
+    elseif c == "v" or c == "V" or c == "\22" then return mode_bg.visual
+    elseif c == "R"                            then return mode_bg.replace
+    else                                            return mode_bg.normal
+    end
+end
+
+local function refresh_cursorline()
+    vim.api.nvim_set_hl(0, "CursorLine", { bg = cursorline_bg(vim.fn.mode()) })
+end
+
+vim.opt.cursorline = true
+refresh_cursorline()
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+    callback = refresh_cursorline,
+})
+-- ────────────────────────────────────────────────────────────────────────────
+
+local ns       = vim.api.nvim_create_namespace("glow_hl")
+local timer    = nil
+local last_buf = nil
 
 local function clear(bufnr)
     if timer then
