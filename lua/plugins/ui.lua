@@ -131,12 +131,10 @@ return {
     -- Code highlight, coloring
     {
         "nvim-treesitter/nvim-treesitter",
-        branch = "master",
         build = ":TSUpdate",
         config = function()
             require('nvim-treesitter.install').compilers = { "zig", "gcc", "clang" }
-            local configs = require('nvim-treesitter.configs')
-            configs.setup({
+            require('nvim-treesitter').setup({
                 ensure_installed = { "c_sharp", "javascript", "typescript", "json", "lua", "tsx", "html", "python", "markdown_inline","yaml" },
                 highlight = {
                     enable = true,
