@@ -133,3 +133,5 @@ vim.keymap.set("n", "<C-s>", function()
     vim.cmd("write")
   end
 end, { desc = "Save buffer (ask name if unnamed)" })
+
+vim.keymap.set('n', '<F3>', require("modules.window_mode").toggle_window_mode, { desc = "Toggle Window Mode" })
