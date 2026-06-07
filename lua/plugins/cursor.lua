@@ -1,25 +1,25 @@
 return {
-    {
-        "sphamba/smear-cursor.nvim",
-        event = { "VeryLazy" },
-        opts = {
-        },
-        config = function ()
-            require("smear_cursor").setup({
-                never_draw_over_target = true,
-                legacy_computing_symbols_support = true,
-                cursor_color =  "#f62904",
-                -- particles_enabled = true,
-                -- particle_max_num = 400,
-                -- particle_max_lifetime = 500,
-                -- particle_spread = 0.9,
-                -- stiffness = 0.5,
-                -- trailing_stiffness = 0.6,
-                -- trailing_exponent = 5,
-                -- damping = 0.5,
-                -- gradient_exponent = 0,
-                -- min_distance_emit_particles = 0.5
-            })
-        end
-    },
+    -- {
+    --     "sphamba/smear-cursor.nvim",
+    --     event = { "VeryLazy" },
+    --     opts = {
+    --     },
+    --     config = function ()
+    --         require("smear_cursor").setup({
+    --             never_draw_over_target = true,
+    --             legacy_computing_symbols_support = true,
+    --             cursor_color =  "#f62904",
+    --             -- particles_enabled = true,
+    --             -- particle_max_num = 400,
+    --             -- particle_max_lifetime = 500,
+    --             -- particle_spread = 0.9,
+    --             -- stiffness = 0.5,
+    --             -- trailing_stiffness = 0.6,
+    --             -- trailing_exponent = 5,
+    --             -- damping = 0.5,
+    --             -- gradient_exponent = 0,
+    --             -- min_distance_emit_particles = 0.5
+    --         })
+    --     end
+    -- },
 }
