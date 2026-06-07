@@ -43,5 +43,6 @@ vim.keymap.set("x", "c", '"cc')
 
 require("config.lazy")
 require("config.keymaps")
+require("config.neovide")
 require("commands.commands")
 require("modules.modules")
