@@ -16,6 +16,7 @@ return {
                     ['@comment'] = { fg = '$grey' },
                     ['MiniIndentscopeSymbol'] = { fg = '#521300' }, -- intend color
                     ['orange'] = { fg = '#DA702C' },
+                    ['yellow'] = { fg = '#dbb651' },
                     ['SnacksDashboardHeader'] = { fg = "#DA702C" },
                 }
             }
@@ -209,14 +210,16 @@ return {
             })
         end,
     },
-    -- minty color picker(volt is requirement)
-    { "nvzone/volt", lazy = true },
     {
-        "nvzone/minty",
-        cmd = { "Shades", "Huefy" },
+        "PatrykChwastek/nv-menu",
+        config = function ()
+            require("nv-menu").setup({
+                max_width = 45,
+                border_hl = "orange",
+                title_hl  = "yellow",
+            })
+        end
     },
-    -- TODO config or find alternative
-    { "nvzone/menu" , lazy = true },
     -- Scrollbar
     {
         'dstein64/nvim-scrollview',

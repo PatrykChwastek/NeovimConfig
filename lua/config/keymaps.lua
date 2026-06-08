@@ -135,3 +135,6 @@ vim.keymap.set("n", "<C-s>", function()
 end, { desc = "Save buffer (ask name if unnamed)" })
 
 vim.keymap.set('n', '<F3>', require("modules.window_mode").toggle_window_mode, { desc = "Toggle Window Mode" })
+
+vim.keymap.set("n","mb",function () require("nv-menu").builtins.buffers({ panel_width = 60, auto_preview = true }) end,{desc = "Buffers Menu"})
+vim.keymap.set("n","mr",function () require("nv-menu").builtins.lsp_references({ auto_preview = false }) end,{desc = "Buffers Menu"})
