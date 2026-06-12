@@ -79,16 +79,6 @@ vim.keymap.set("n", "<leader>t", function() require("modules.toggle").toggle() e
 vim.keymap.set("n","<leader>-",function () MiniFiles.open() end,{desc = "Open file explorer."})
 vim.keymap.set("n","<leader>gv",function () MiniDiff.toggle_overlay() end,{desc = "Git changes view toggle(MiniDiff)"})
 
-vim.keymap.set("n","<leader>pc",function () require("minty.huefy").open() end,{desc = "Open color picker"})
-vim.keymap.set("n","<leader>ps",function () require("minty.shades").open() end,{desc = "Open color picker, shade"})
-
-vim.keymap.set("n","<RightMouse>",function ()
-    require('menu.utils').delete_old_menus()
-    vim.cmd.exec '"normal! \\<RightMouse>"'
-    -- require("plenary.reload").reload_module "menus"
-    -- require("plenary.reload").reload_module "menu"
-    require("menu").open("default")
-end,{desc = "Menu"})
 -- <F16> is menu in win terminal
 -- { 
 --     "command": { "action": "sendInput", "input": "\u001b[29~" }, 
