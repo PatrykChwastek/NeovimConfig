@@ -11,8 +11,6 @@ wk.add({
     { "K",          vim.lsp.buf.hover,                                   desc = "Show hover" },
     { "<leader>cd", function() vim.lsp.buf.definition() end,             desc = "LSP Goto Definition"},
     { "<leader>cr", function() vim.lsp.buf.references() end,             desc = "LSP Goto Reference" },
-    -- { "<Leader>ca", vim.lsp.buf.code_action,                             desc = "Code actions", mode = "v" },
-    -- { "<leader>ca", vim.lsp.buf.code_action,                             desc = "Code actions" },
     { "<F2>",       vim.lsp.buf.rename,                                  desc = "Rename symbol" }
 })
 
@@ -27,6 +25,7 @@ vim.keymap.set('n', '<leader>fc', builtin.commands, { desc = 'Telescope commands
 vim.keymap.set("n", "<leader>f/", builtin.current_buffer_fuzzy_find, { desc = "Fuzzy search in buffer" })
 vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Telescope find registers" })
 vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Telescope find markers" })
+vim.keymap.set("n", "<leader>fl", builtin.resume, { desc = "Telescope resume last" })
 
 vim.keymap.set("n", "<leader>//", function()
   require("telescope.builtin").current_buffer_fuzzy_find()
