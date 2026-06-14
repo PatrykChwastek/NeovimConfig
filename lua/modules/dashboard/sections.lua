@@ -17,6 +17,7 @@ M.nav = {
     { icon = "󰊄 ", label = "Find Text",    key = "g", action = function() require("telescope.builtin").live_grep() end },
     { icon = "󰋚 ", label = "Recent Files", key = "r", action = function() require("telescope.builtin").oldfiles() end },
     { icon = "󰒓 ", label = "Config",       key = "c", action = function() require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") }) end },
+    { icon = "󰆍 ", label = "Terminal",     key = "t", action = function() vim.cmd("terminal") end },
     { icon = "󰗼 ", label = "Quit",         key = "q", action = function() vim.cmd("qa") end },
 }
 

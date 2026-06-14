@@ -1,6 +1,6 @@
 local M = {}
 
-local state = {}  -- { buf, win }
+local state = {}
 
 function M.rerender()
     if state.buf and vim.api.nvim_buf_is_valid(state.buf)
@@ -43,22 +43,20 @@ function M.open()
     }
 
     require("modules.dashboard.layout").render(buf, win)
-
-    -- Fetch joke async; re-render once it arrives.
     require("modules.dashboard.joke").fetch_async(function()
         M.rerender()
     end)
 
     -- Restore window options on leave. vim.schedule runs after all BufEnter/FileType
-    -- plugin autocmds — without it a plugin re-applies nonumber on the new buffer.
     vim.api.nvim_create_autocmd("BufLeave", {
         buffer   = buf,
         callback = function()
             if not vim.api.nvim_win_is_valid(win) then return end
             vim.schedule(function()
                 if not vim.api.nvim_win_is_valid(win) then return end
-                -- If the dashboard buffer is still in its window, keep dashboard options
+                -- If the dashboard buffer is still in its window (e.g. focus moved to a float)
                 if vim.api.nvim_win_get_buf(win) == buf then return end
+                if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "terminal" then return end
                 local w = vim.wo[win]
                 w.number         = saved.number
                 w.relativenumber = saved.relativenumber

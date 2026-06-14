@@ -249,6 +249,7 @@ local function merge_columns(ll, lh, rl, rh, left_w)
 end
 
 -- Shift highlight byte positions by a horizontal margin (for centering).
+-- -1 end means EOL; leave it as-is.
 local function shift_hls(hls, margin)
     if margin == 0 then return hls end
     local out = {}
